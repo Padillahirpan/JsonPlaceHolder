@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Risa Sarasvati"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="rissaaasarasvatikan"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="089661960178"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_username"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="idinan@gmail.com"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_phone"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_bullet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_bullet"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="@+id/tv_email"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_email"
+        app:layout_constraintStart_toEndOf="@+id/tv_email"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_url_website"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text= "hildegard.org"
+        app:layout_constraintTop_toTopOf="@id/tv_email"
+        app:layout_constraintStart_toEndOf="@+id/tv_bullet"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_address"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_baseline_place"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_email"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Indonesia mumbai"
+        app:layout_constraintTop_toTopOf="@+id/iv_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_address"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_zipcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="45678"
+        app:layout_constraintTop_toBottomOf="@+id/tv_address"
+        app:layout_constraintStart_toEndOf="@+id/iv_address"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_company"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_baseline_business"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_zipcode"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_company_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Microsoft Office"
+        app:layout_constraintStart_toEndOf="@id/iv_company"
+        app:layout_constraintTop_toTopOf="@id/iv_company"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_company_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sekertariat Jenderal"
+        app:layout_constraintTop_toBottomOf="@+id/tv_company_name"
+        app:layout_constraintStart_toStartOf="@+id/tv_company_name"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
