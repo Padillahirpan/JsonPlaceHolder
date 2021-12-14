@@ -41,7 +41,7 @@ class AlbumAdapter(
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: UserAlbum) {
             with(binding) {
-                tvTitle.text = item.title
+                tvAlbumTitle.text = item.title
 
                 this.root.setOnClickListener {
                     listener.onItemAlbumClicked(item)

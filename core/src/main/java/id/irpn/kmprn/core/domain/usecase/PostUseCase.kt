@@ -1,5 +1,6 @@
 package id.irpn.kmprn.core.domain.usecase
 
+import androidx.lifecycle.LiveData
 import id.irpn.kmprn.core.data.Resource
 import id.irpn.kmprn.core.domain.model.PhotoAlbum
 import id.irpn.kmprn.core.domain.model.PostComment

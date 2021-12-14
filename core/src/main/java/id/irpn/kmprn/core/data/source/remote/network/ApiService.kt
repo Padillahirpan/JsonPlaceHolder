@@ -11,12 +11,12 @@ import retrofit2.http.Path
 
 
 interface ApiService {
-    @GET("posts")
+    @GET("posts?_limit=2")
     suspend fun getListPosts(): List<PostResponse>
 
     @GET("posts/{post_id}/comments")
     suspend fun getPostComments(
-        postId: Int
+        @Path("post_id") postId: Int
     ): List<PostCommentResponse>
 
     @GET("users")
@@ -28,5 +28,7 @@ interface ApiService {
     ): List<UserAlbumResponse>
 
     @GET("albums/{album_id}/photos")
-    suspend fun getPhotoAlbums(albumId: Int): List<PhotoAlbumResponse>
+    suspend fun getPhotoAlbums(
+        @Path("album_id") albumId: Int
+    ): List<PhotoAlbumResponse>
 }

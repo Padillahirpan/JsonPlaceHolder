@@ -1,5 +1,7 @@
 package id.irpn.kmprn.core.domain.usecase
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import id.irpn.kmprn.core.data.Resource
 import id.irpn.kmprn.core.domain.model.PhotoAlbum
 import id.irpn.kmprn.core.domain.model.PostComment
@@ -7,6 +9,7 @@ import id.irpn.kmprn.core.domain.model.Posts
 import id.irpn.kmprn.core.domain.model.UserAlbum
 import id.irpn.kmprn.core.domain.repository.IPostRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 
 /**
  * Created by irpanpadillah on 11/12/21

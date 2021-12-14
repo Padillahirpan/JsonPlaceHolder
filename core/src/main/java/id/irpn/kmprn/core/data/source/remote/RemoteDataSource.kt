@@ -1,5 +1,6 @@
 package id.irpn.kmprn.core.data.source.remote
 
+import android.util.Log
 import id.irpn.kmprn.core.data.source.remote.network.ApiResponse
 import id.irpn.kmprn.core.data.source.remote.network.ApiService
 import id.irpn.kmprn.core.data.source.remote.response.PhotoAlbumResponse
@@ -66,10 +67,10 @@ class RemoteDataSource(
         }.flowOn(Dispatchers.IO)
     }
 
-    fun getListPhotoAlbum(userId: Int): Flow<ApiResponse<List<PhotoAlbumResponse>>> {
+    fun getListPhotoAlbum(albumId: Int): Flow<ApiResponse<List<PhotoAlbumResponse>>> {
         return flow {
             try {
-                val response = apiService.getPhotoAlbums(userId)
+                val response = apiService.getPhotoAlbums(albumId)
                 if (response.isNotEmpty()) {
                     emit(ApiResponse.Success(response))
                 } else {

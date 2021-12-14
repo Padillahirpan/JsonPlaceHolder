@@ -38,7 +38,8 @@ class PostAdapter(
     inner class PostViewHolder(private val binding: LayoutItemPostBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Posts) {
             with(binding) {
-                tvItem.text = item.title
+                tvPostTitle.text = item.title
+                tvPostBody.text = item.body
 
                 this.root.setOnClickListener {
                     listener.onItemPostClicked(item)

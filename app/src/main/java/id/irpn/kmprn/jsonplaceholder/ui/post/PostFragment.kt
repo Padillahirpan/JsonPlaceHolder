@@ -1,7 +1,6 @@
 package id.irpn.kmprn.jsonplaceholder.ui.post
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,21 +11,18 @@ import id.irpn.kmprn.core.domain.model.Posts
 import id.irpn.kmprn.core.ui.PostAdapter
 import id.irpn.kmprn.jsonplaceholder.R
 import id.irpn.kmprn.jsonplaceholder.databinding.FragmentPostBinding
-import id.irpn.kmprn.jsonplaceholder.ui.user.UserFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+/**
+ * Created by irpanpadillah on 11/12/21
+ * Email: padillahirpan8@gmail.com
+ */
+
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PostFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class PostFragment : Fragment(), PostAdapter.PostAdapterListener {
-    // TODO: Rename and change types of parameters
+
     private var param1: String? = null
     private var param2: String? = null
 
@@ -35,7 +31,9 @@ class PostFragment : Fragment(), PostAdapter.PostAdapterListener {
 
     private val postViewModel: PostViewModel by viewModel()
 
-    private lateinit var postAdapter: PostAdapter
+    private val postAdapter: PostAdapter by lazy {
+        PostAdapter(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,25 +47,20 @@ class PostFragment : Fragment(), PostAdapter.PostAdapterListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentPostBinding.inflate(inflater, container, false)
-
-        Log.d("xyz","onCreateView")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("xyz","onViewCreated")
 
         setupAdapter()
         observeData()
     }
 
     private fun setupAdapter() {
-        postAdapter = PostAdapter(this)
         binding.rvPosts.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(activity)
             adapter = postAdapter
         }
     }
@@ -80,14 +73,12 @@ class PostFragment : Fragment(), PostAdapter.PostAdapterListener {
                 }
                 is Resource.Success -> {
                     dismissLoading()
-                    binding.tvSizeList.text = it.data?.size.toString()
                     it.data?.let { posts ->
                         postAdapter.updateListPost(posts)
                     }
                 }
                 is Resource.Error -> {
                     dismissLoading()
-                    binding.tvSizeList.text = it.message
                 }
             }
         }
@@ -107,9 +98,10 @@ class PostFragment : Fragment(), PostAdapter.PostAdapterListener {
     }
 
     override fun onItemPostClicked(posts: Posts) {
-        Log.d("xzy","this is itemPost: $posts")
         activity?.apply {
-            supportFragmentManager.beginTransaction().replace(R.id.frame_layout, UserFragment.newInstance())
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, PostDetailFragment.newInstance(posts.id))
                 .addToBackStack(null)
                 .commit()
         }
