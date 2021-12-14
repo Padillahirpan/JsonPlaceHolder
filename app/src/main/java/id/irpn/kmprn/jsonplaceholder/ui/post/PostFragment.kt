@@ -18,13 +18,8 @@ import org.koin.android.viewmodel.ext.android.viewModel
  * Email: padillahirpan8@gmail.com
  */
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 class PostFragment : Fragment(), PostAdapter.PostAdapterListener {
-
-    private var param1: String? = null
-    private var param2: String? = null
 
     private var _binding: FragmentPostBinding? = null
     private val binding get() = _binding!!
@@ -33,14 +28,6 @@ class PostFragment : Fragment(), PostAdapter.PostAdapterListener {
 
     private val postAdapter: PostAdapter by lazy {
         PostAdapter(this)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -101,7 +88,7 @@ class PostFragment : Fragment(), PostAdapter.PostAdapterListener {
         activity?.apply {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.frame_layout, PostDetailFragment.newInstance(posts.id))
+                .replace(R.id.frame_layout, PostDetailFragment.newInstance(posts))
                 .addToBackStack(null)
                 .commit()
         }

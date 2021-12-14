@@ -26,7 +26,6 @@ class MainActivity: AppCompatActivity(){
     private fun setupUi() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.frame_layout, PostFragment.newInstance())
-            .addToBackStack(null)
-            .commit()
+            .commitNow()
     }
 }

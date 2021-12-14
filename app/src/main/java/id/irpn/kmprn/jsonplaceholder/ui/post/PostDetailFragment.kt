@@ -1,17 +1,16 @@
 package id.irpn.kmprn.jsonplaceholder.ui.post
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import id.irpn.kmprn.core.data.Resource
+import id.irpn.kmprn.core.domain.model.Posts
 import id.irpn.kmprn.core.ui.CommentAdapter
-import id.irpn.kmprn.core.ui.PostAdapter
 import id.irpn.kmprn.jsonplaceholder.R
-import id.irpn.kmprn.jsonplaceholder.databinding.FragmentPostBinding
 import id.irpn.kmprn.jsonplaceholder.databinding.FragmentPostDetailBinding
 import id.irpn.kmprn.jsonplaceholder.ui.user.UserFragment
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -21,7 +20,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
  * Email: padillahirpan8@gmail.com
  */
 
-private const val EXTRA_POST_ID = "param1"
+private const val EXTRA_POST = "param1"
 
 class PostDetailFragment : Fragment() {
 
@@ -30,7 +29,7 @@ class PostDetailFragment : Fragment() {
 
     private val postViewModel: PostViewModel by viewModel()
 
-    private var postId: Int? = null
+    private var post: Posts? = null
 
     private val commentAdapter: CommentAdapter by lazy {
         CommentAdapter()
@@ -39,7 +38,7 @@ class PostDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            postId = it.getInt(EXTRA_POST_ID)
+            post = it.getParcelable<Posts>(EXTRA_POST)
         }
     }
 
@@ -58,25 +57,39 @@ class PostDetailFragment : Fragment() {
         setupAdapter()
         observeData()
 
+        post?.let {
+            setupDataPost(it)
+            postViewModel.getPostComment(it.id)
+        }
+    }
 
-        postId?.let { id ->
-            postViewModel.getPostComment(id)
+    private fun setupDataPost(post: Posts) {
+        binding.apply {
+            tvPostTitle.text = post.title
+            tvPostBody.text = post.body
+            tvPostUsername.text = getString(R.string.text_post_by, post.user?.username ?: "-")
         }
     }
 
     private fun setupUI() {
         binding.apply {
-            tvPostUsername.text = getString(R.string.text_post_username, "jadong")
+            tvPostUsername.text = getString(R.string.text_post_username, post?.user?.username ?: "-")
             tvPostUsername.setOnClickListener {
-                activity?.apply {
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.frame_layout, UserFragment.newInstance(1))
-                        .addToBackStack(null)
-                        .commit()
-                }
+                post?.user?.let { user ->
+                    activity?.apply {
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, UserFragment.newInstance(user))
+                            .addToBackStack(null)
+                            .commit()
+                    }
+                } ?: showUserNotFound()
             }
         }
+    }
+
+    private fun showUserNotFound() {
+        Snackbar.make(binding.root, getString(R.string.text_user_not_found), Snackbar.LENGTH_LONG).show()
     }
 
     private fun setupAdapter() {
@@ -121,10 +134,10 @@ class PostDetailFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(id: Int) =
+        fun newInstance(post: Posts) =
             PostDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(EXTRA_POST_ID, id)
+                    putParcelable(EXTRA_POST, post)
                 }
             }
     }
