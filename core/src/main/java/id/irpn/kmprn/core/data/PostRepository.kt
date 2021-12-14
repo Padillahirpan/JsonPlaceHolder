@@ -2,12 +2,16 @@ package id.irpn.kmprn.core.data
 
 import id.irpn.kmprn.core.data.source.remote.RemoteDataSource
 import id.irpn.kmprn.core.data.source.remote.network.ApiResponse
+import id.irpn.kmprn.core.data.source.remote.response.UserResponse
 import id.irpn.kmprn.core.domain.model.PhotoAlbum
 import id.irpn.kmprn.core.domain.model.PostComment
 import id.irpn.kmprn.core.domain.model.Posts
 import id.irpn.kmprn.core.domain.model.UserAlbum
 import id.irpn.kmprn.core.domain.repository.IPostRepository
+import id.irpn.kmprn.core.utils.DataMapper.convertPhotoAlbum
+import id.irpn.kmprn.core.utils.DataMapper.convertPostComments
 import id.irpn.kmprn.core.utils.DataMapper.convertPostWithUser
+import id.irpn.kmprn.core.utils.DataMapper.convertUserAlbum
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -25,7 +29,14 @@ class PostRepository(
             this.emit(Resource.Loading())
             when(val result = remoteDataSource.getListPost().first()) {
                 is ApiResponse.Success -> {
-                    val listResponse = convertPostWithUser(result.data)
+                    val listUsers = mutableListOf<UserResponse>()
+                    when(val resultListUser = remoteDataSource.getListUsers().first()) {
+                        is ApiResponse.Success -> {
+                            listUsers.addAll(resultListUser.data)
+                        }
+                    }
+
+                    val listResponse = convertPostWithUser(result.data, listUsers)
                     this.emit(Resource.Success(listResponse))
                 }
                 is ApiResponse.Error -> {
@@ -44,16 +55,7 @@ class PostRepository(
             this.emit(Resource.Loading())
             when(val result = remoteDataSource.getListPostComment(postId).first()) {
                 is ApiResponse.Success -> {
-                    val listComment = result.data.map {
-                        PostComment(
-                            id = it.id,
-                            postId = it.postId,
-                            name = it.name,
-                            email = it.email,
-                            body = it.body
-                        )
-                    }
-                    this.emit(Resource.Success(listComment))
+                    this.emit(Resource.Success(convertPostComments(result.data)))
                 }
                 is ApiResponse.Error -> {
                     val error: Resource<List<PostComment>> = Resource.Error(result.errorMessage)
@@ -71,14 +73,7 @@ class PostRepository(
             this.emit(Resource.Loading())
             when(val result = remoteDataSource.getListUserAlbum(userId).first()) {
                 is ApiResponse.Success -> {
-                    val listUserAlbum = result.data.map {
-                        UserAlbum(
-                            id = it.id,
-                            userId = it.userId,
-                            title = it.title
-                        )
-                    }
-                    this.emit(Resource.Success(listUserAlbum))
+                    this.emit(Resource.Success(convertUserAlbum(result.data)))
                 }
                 is ApiResponse.Error -> {
                     val error: Resource<List<UserAlbum>> = Resource.Error(result.errorMessage)
@@ -96,16 +91,7 @@ class PostRepository(
             this.emit(Resource.Loading())
             when(val result = remoteDataSource.getListPhotoAlbum(albumId).first()) {
                 is ApiResponse.Success -> {
-                    val listPhotoAlbum = result.data.map {
-                        PhotoAlbum(
-                            albumId = it.albumId,
-                            id = it.id,
-                            title = it.title,
-                            url = it.url,
-                            thumbnailUrl = it.thumbnailUrl
-                        )
-                    }
-                    this.emit(Resource.Success(listPhotoAlbum))
+                    this.emit(Resource.Success(convertPhotoAlbum(result.data)))
                 }
                 is ApiResponse.Error -> {
                     val error: Resource<List<PhotoAlbum>> = Resource.Error(result.errorMessage)

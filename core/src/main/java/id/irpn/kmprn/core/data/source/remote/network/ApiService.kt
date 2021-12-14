@@ -11,7 +11,7 @@ import retrofit2.http.Path
 
 
 interface ApiService {
-    @GET("posts?_limit=2")
+    @GET("posts?_limit=20")
     suspend fun getListPosts(): List<PostResponse>
 
     @GET("posts/{post_id}/comments")

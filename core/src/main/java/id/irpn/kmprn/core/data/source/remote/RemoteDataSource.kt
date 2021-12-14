@@ -1,12 +1,8 @@
 package id.irpn.kmprn.core.data.source.remote
 
-import android.util.Log
 import id.irpn.kmprn.core.data.source.remote.network.ApiResponse
 import id.irpn.kmprn.core.data.source.remote.network.ApiService
-import id.irpn.kmprn.core.data.source.remote.response.PhotoAlbumResponse
-import id.irpn.kmprn.core.data.source.remote.response.PostCommentResponse
-import id.irpn.kmprn.core.data.source.remote.response.PostResponse
-import id.irpn.kmprn.core.data.source.remote.response.UserAlbumResponse
+import id.irpn.kmprn.core.data.source.remote.response.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -21,9 +17,8 @@ import java.lang.Exception
 class RemoteDataSource(
     private val apiService: ApiService
 ) {
-
-    fun getListUsers() {
-        flow {
+    fun getListUsers(): Flow<ApiResponse<List<UserResponse>>> {
+        return flow {
             try {
                 val response = apiService.getListUser()
                 if (response.isNotEmpty()) {

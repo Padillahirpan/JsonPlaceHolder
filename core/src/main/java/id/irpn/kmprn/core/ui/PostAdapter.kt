@@ -41,6 +41,9 @@ class PostAdapter(
                 tvPostTitle.text = item.title
                 tvPostBody.text = item.body
 
+                tvUsername.text = item.user?.username ?: "-"
+                tvUserCompany.text = item.user?.companyName?: "-"
+
                 this.root.setOnClickListener {
                     listener.onItemPostClicked(item)
                 }

@@ -6,4 +6,5 @@
     <string name="text_bullet">\u2022</string>
     <string name="text_comment_count">%d Comments</string>
     <string name="text_post_username">\u2022 %s</string>
+    <string name="text_at">at</string>
 </resources>
