@@ -26,6 +26,9 @@ buildscript {
 
         koin_version = "2.1.4"
         photo_preview_version = "2.0.0"
+        mockito_version = "3.6.0"
+        mockito_kotlin_version = '2.2.0'
+        android_core_test_version = '2.1.0'
     }
     repositories {
         google()
